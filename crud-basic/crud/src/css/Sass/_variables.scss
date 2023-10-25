@@ -1,0 +1,27 @@
+$color-fondo:#FDfCFC;
+//colores
+$color-primary:#55c57a;
+$color-primary-light:#7ed56f;
+$color-primary-dark:#28b485;
+//------------------------------------color para las tarjetas----
+$color-secondary-light: #FFb900;
+$color-secondary-dark: #FF7730;
+$color-tertiary-light: #2998ff;
+$color-tertiary-dark: #5643fa;
+
+
+$color-grey-light-1:#f7f7f7;//color para el encabezado del cuerpo
+$color-grey-light-2:#eee;//color para el subrayado
+
+$color-grey-dark: #777;
+$color-white:#fff;
+$color-black:#000;
+//sombras
+$sombra:rgba($color-black, .15);
+
+//fuentes
+$default-font-size:1.6rem;//fuente para el botón secundario "learn more", además que se va ha usar mucho
+//grid
+$grid-width: 114rem;//ancho del grid clase row
+$gutter-vertical: 8rem;//margin-bottom clas row
+$gutter-horizontal: 6rem;//margin-right clas row

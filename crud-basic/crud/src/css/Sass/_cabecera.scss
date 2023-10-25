@@ -1,0 +1,33 @@
+.heading-container{
+    height: 24vh;
+    display: flex;
+    
+    
+    &-logo-box{
+       
+        width: 20.33%;
+        position: absolute;
+        top: 3rem;
+        left: 3rem;
+        
+    }
+    &-logo{
+        height: 3.5rem;
+    }
+    &-titulo{
+        background-color: $color-fondo;
+        
+        flex: 2;
+        &-text{
+            
+            position: absolute;
+            top: 11%;
+            left: 34%;
+            font-size: 2rem;
+            font-weight: 200;
+            font-family: sans-serif;
+            text-transform: uppercase;
+        }
+    }
+
+}

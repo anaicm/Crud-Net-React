@@ -1,0 +1,11 @@
+//mixin para evitar que se colapse con float
+@mixin clearfix{//lo que hace este mixin es agregar un pseudo elemento despues del elemento que luego borrara los elementos 
+                //flotantes
+    &::after{
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+}
+

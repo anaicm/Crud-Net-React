@@ -1,0 +1,98 @@
+
+.card{
+    //-------------------------------------Funcionalidad---------------------------------------------------------------------------
+ //la perspectiva se tiene que definir en el padre y luego en el elemento hijo realizar la rotación
+perspective: 150rem;//deve ser un número alto de px
+-mox-perpective:150rem;//para que haga tambien la perpectiva en el navegador firefox
+position: relative;
+height: 52rem;//el padre debe de tener la misma altura que el hijo ya al hacer position absolute el padre pierde la altura
+
+&__side{
+    height: 42rem;
+    transition: all .8s ease;//da la animación
+     //poner una tarjeta encima de otra
+    position: absolute;//en el padre debe de tener una position relative
+    top: 3rem;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden;//para que no desborde la imagen de las tarjetas
+    box-shadow: 01.5rem 4rem $sombra;
+    &--front{
+        background-color:$color-white;
+    }
+    &--back{
+        transform: rotateY(180deg);
+        &-1{
+            background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+        }
+    }
+
+}
+
+&:hover &__side--front{//solo lo aplicará en la parte delantera
+    transform: rotateY(-180deg);
+}
+&:hover &__side--back{//ya esta en 180 grados por lo que tiene que volver a cero 
+    transform: rotateY(0deg);
+}
+//-------------------------------diseño front---------------------------------------------------------------------------------
+&__picture{
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: screen;//mezcla el fondo, solo funciona en safari, google y firefox; Se puede hacer distintas mezclas
+    //como ponerlo en blanco y negro, cambiar el tono, etc.
+    -webkit-clip-path: polygon(0 0, 100% 0,100% 85%, 0 100%); //da la forma al div, -webkit- se usa para que 
+                                                            //lo realice en todos los navegadores
+    clip-path: polygon(0 0, 100% 0,100% 85%, 0 100%);
+    
+    &--1{
+        background-image: linear-gradient(to right bottom, 
+                            $color-secondary-light,
+                            $color-secondary-dark); 
+                          
+
+    }
+ 
+}
+&__heading{//titulo de la tarjeta
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: $color-white;
+    position: absolute;//para que el título se ponga encima de la imagen
+    top: 12rem;
+    right: 2rem;
+    text-align: right;
+    width: 75%;
+
+}
+&__heading-span{
+    padding: 1rem 1.5rem;
+    -webkit-decoration-break: clone;//webkit funcione en el navegador chrome
+    box-decoration-break: clone;//rompe la decoración de la caja
+    &--1{
+        background-image: linear-gradient(to right bottom,
+        rgba($color-secondary-light, .85),
+        rgba($color-secondary-dark, .85));
+    }
+}
+&__details{
+    padding: 3rem;
+    margin: 0 auto;
+    ul{
+        list-style: none;//quita la decoración de las listas
+        width: 80%;//con el 80% el subrayado no llegará de izquierda a derechas 
+            li{
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+                &:not(:last-child){//subrayado en todos menos en el último
+                    border-bottom: 1px solid $color-grey-light-2;
+
+                }
+            }
+    }
+}
+}
