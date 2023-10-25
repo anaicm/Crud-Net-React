@@ -5,24 +5,56 @@ import '../css/maim.css';
 
 export function Main() {
     const[rows, setRows] = useState([]);//Estado para guardar el array de datos que vienen de la base de datos 
+    const [newBook, setNewBook] = useState({ titulo: '', autor: '' });//estado para añadir nuevo elemento
 
-    useEffect(() => {//función que trae todos los registros de la tabla
-        async function fetchData() {
-            try {
-                const response = await fetch('http://localhost:5020/Libros');
-                if (response.ok) {
-                    const data = await response.json();
-                    setRows(data);
-                } else {
-                    console.log('No se puede obtener la lista del elemento');
-                }
-            } catch (error) {
-                console.log(error);
+    async function fetchData() {//función que trae todos los registros de la tabla
+        try {
+            const response = await fetch('http://localhost:5020/Libros');
+            if (response.ok) {
+                const data = await response.json();
+                setRows(data);
+            } else {
+                console.log('No se puede obtener la lista del elemento');
             }
+        } catch (error) {
+            console.log(error);
         }
-
+    }
+    useEffect(() => {
         fetchData();
     },[]);
+    //añade un nuevo registro en la tabla
+    const handleAddBook = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5020/Libros', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newBook),
+            });
+
+            if (response.ok) {
+                // Actualizar la lista de libros después de agregar uno nuevo
+                fetchData();
+                // Limpiar el formulario
+                setNewBook({ titulo: '', autor: '' });
+            } else {
+                console.log('No se pudo agregar el libro');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewBook({
+            ...newBook,
+            [name]: value,
+        });
+    };
   return (
     <>
     <div className="container-main">
@@ -36,7 +68,7 @@ export function Main() {
                         </div>
                         <h4 className="card__heading">
                             <span className="card__heading-span card__heading-span--1">
-                                {book.título}
+                                {book.titulo}
                             </span>
                         </h4>
                         <div className="card__details">
@@ -57,15 +89,26 @@ export function Main() {
         ))}{/**cierre del rows para traer los títulos y los autores */}
     </div>
     <div>
-        <form>{/**Formulario para añadir un nuevo libro */}
-            <label >
-              
-                <input type="text" name='titulo' placeholder='Título'/>
-            </label>
-            <label >
-                
-                <input type="text" name='Autor' placeholder='Autor'/>
-            </label>
+    
+        <form onSubmit={handleAddBook}>{/**Formulario para añadir un nuevo libro */}
+                        <label>
+                            <input
+                                type="text"
+                                name="titulo"
+                                placeholder="Título"
+                                value={newBook.titulo}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            <input
+                                type="text"
+                                name="autor"
+                                placeholder="Autor"
+                                value={newBook.autor}
+                                onChange={handleInputChange}
+                            />
+                        </label>
             <button type='submit'  className="btn btn-white">Añadir</button>
         </form>
     </div>

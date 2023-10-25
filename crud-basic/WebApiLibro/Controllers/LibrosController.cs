@@ -18,7 +18,7 @@ public class LibrosController : ControllerBase
     public LibrosController(ILogger<LibrosController> logger, DataContext dataContext)//pasa el acceso a la bse de datos
     {
         _logger = logger;
-        _dataContext = dataContext;
+        _dataContext = _dataContext;
     }
 
     [HttpGet]//obtener los datos de la tabla libro
@@ -35,6 +35,7 @@ public class LibrosController : ControllerBase
         return Ok(element);//devuelve un ok del elemento
        
     }
+    
      [HttpDelete("{id}")]//Eliminar registro
     public IActionResult Delete(int id)
     {
@@ -57,10 +58,10 @@ public class LibrosController : ControllerBase
             return NotFound();//devuelve un 404 si el elemento no se encuetra
         }
         // Actualiza los campos necesarios del elemento existente
-        existingItem.Título = updatedItem.Título;
+        existingItem.Titulo = updatedItem.Titulo;
         existingItem.Autor = updatedItem.Autor;
 
-        _dataContext.SaveChanges();//guarda los cambios
+        _dataContext.SaveChanges();
         return NoContent();//Devuelve un 204 despues de actualizar el elemento
        
     }
