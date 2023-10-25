@@ -18,7 +18,7 @@ public class LibrosController : ControllerBase
     public LibrosController(ILogger<LibrosController> logger, DataContext dataContext)//pasa el acceso a la bse de datos
     {
         _logger = logger;
-        _dataContext = _dataContext;
+        _dataContext = dataContext;
     }
 
     [HttpGet]//obtener los datos de la tabla libro
