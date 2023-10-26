@@ -6,8 +6,24 @@ import '../css/maim.css';
 export function Main() {
     const[rows, setRows] = useState([]);//Estado para guardar el array de datos que vienen de la base de datos 
     const [newBook, setNewBook] = useState({ titulo: '', autor: '' });//estado para añadir nuevo elemento
-
-    async function fetchData() {//función que trae todos los registros de la tabla
+    //ventana emergente para eliminar 
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [deleteInputValue, setDeleteInputValue] = useState('');
+    //Metodos para abrir un modal e insertar el id para borrar
+    const openDeleteModal = () => {//abre el modal
+        setIsDeleteModalOpen(true);
+      };
+      
+      const closeDeleteModal = () => {//cierra el modal
+        setIsDeleteModalOpen(false);
+        setDeleteInputValue(''); // Limpia el valor del input cuando se cierra la ventana emergente
+      };
+      
+      const handleDeleteInputChange = (e) => {
+        setDeleteInputValue(e.target.value);
+      };      
+    //función que trae todos los registros de la tabla
+    async function fetchData() {
         try {
             const response = await fetch('http://localhost:5020/Libros');
             if (response.ok) {
@@ -55,6 +71,29 @@ export function Main() {
             [name]: value,
         });
     };
+    //función que elimina registros
+    const handleDeleteBook = async (idToDelete) => {
+        try {
+            // Realiza la solicitud para eliminar el libro por su ID
+            const response = await fetch(`http://localhost:5020/Libros/${idToDelete}`, {
+                method: 'DELETE',
+            });
+    
+            if (response.ok) {
+                // Eliminación exitosa, actualiza la lista de libros después de eliminar uno
+                fetchData();
+                // Cierra la ventana emergente
+                closeDeleteModal();
+            } else {
+                console.log('No se pudo eliminar el libro');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
+   
+   
   return (
     <>
     <div className="container-main">
@@ -80,7 +119,7 @@ export function Main() {
                     <div className="card__side card__side--back card__side--back-1">
                         <div className="card__cta">
                             <div className="card__price-box">
-                                Seccion Actualizar 
+                            Boton de borrar
                             </div>
                         </div>
                     </div>
@@ -106,7 +145,23 @@ export function Main() {
                 onChange={handleInputChange}
             />                   
             <button type='submit'  className="btn btn-white container-form-button">Añadir</button>
+            <button type="button" onClick={openDeleteModal} className="btn btn-white container-form-button">
+                Borrar
+            </button>
         </form>
+         {/* Ventana emergente para borrar */}
+        {isDeleteModalOpen && (
+            <div className="delete-modal">
+                <input
+                      type="text"
+                      placeholder="Ingrese el ID del libro para eliminar"
+                      value={deleteInputValue}
+                      onChange={handleDeleteInputChange}
+                />
+                <button onClick={closeDeleteModal}>Cancelar</button>
+                <button onClick={() => handleDeleteBook(deleteInputValue)}>Confirmar</button>
+            </div>
+        )}
     </div>
     {/** fin del formulario para añadir un nuevo libro */}
 </div>
