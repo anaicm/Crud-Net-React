@@ -67,15 +67,18 @@ height: 52rem;//el padre debe de tener la misma altura que el hijo ya al hacer p
     text-align: right;
     width: 75%;
 
+
 }
 &__heading-span{
     padding: 1rem 1.5rem;
     -webkit-decoration-break: clone;//webkit funcione en el navegador chrome
     box-decoration-break: clone;//rompe la decoración de la caja
+    
     &--1{
         background-image: linear-gradient(to right bottom,
-        rgba($color-secondary-light, .85),
+        rgba($color-secondary-light, -0.15),
         rgba($color-secondary-dark, .85));
+        
     }
 }
 &__details{

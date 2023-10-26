@@ -30,13 +30,13 @@
        
     }
     .col-1-of-3{
-        /*
+        
         width: calc(33.33% - #{$gutter-horizontal});;//se diviede entre tres porque hay tres columnas
         &:last-child {
             width: calc(33.3333% - #{$gutter-horizontal} + #{$gutter-horizontal});
         }
-        */
-        width:calc((100% - 2 * $gutter-horizontal) / 3);//esto hace lo mismo que el código anterior
+        
+       /* width:calc((100% - 2 * $gutter-horizontal) / 3);//esto hace lo mismo que el código anterior*/
     }
     .col-2-of-3{
       
