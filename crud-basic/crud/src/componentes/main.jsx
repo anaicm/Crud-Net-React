@@ -86,33 +86,29 @@ export function Main() {
                     </div>
                 </div>
             </div>
+          
         ))}{/**cierre del rows para traer los títulos y los autores */}
     </div>
-    <div>
-    
-        <form onSubmit={handleAddBook}>{/**Formulario para añadir un nuevo libro */}
-                        <label>
-                            <input
-                                type="text"
-                                name="titulo"
-                                placeholder="Título"
-                                value={newBook.titulo}
-                                onChange={handleInputChange}
-                            />
-                        </label>
-                        <label>
-                            <input
-                                type="text"
-                                name="autor"
-                                placeholder="Autor"
-                                value={newBook.autor}
-                                onChange={handleInputChange}
-                            />
-                        </label>
-            <button type='submit'  className="btn btn-white">Añadir</button>
+    <div className='container-form'>{/**Formulario para añadir un nuevo libro */}
+        <form onSubmit={handleAddBook}>
+            <input className='container-form-titulo'
+                type="text"
+                name="titulo"
+                placeholder="Título"
+                value={newBook.titulo}
+                onChange={handleInputChange}
+            />               
+            <input className='container-form-autor'
+                type="text"
+                name="autor"
+                placeholder="Autor"
+                value={newBook.autor}
+                onChange={handleInputChange}
+            />                   
+            <button type='submit'  className="btn btn-white container-form-button">Añadir</button>
         </form>
     </div>
-    
+    {/** fin del formulario para añadir un nuevo libro */}
 </div>
    
 </>
