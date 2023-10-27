@@ -98,6 +98,37 @@ body {
   margin-right: 0; /* Quita el margen derecho de la tercera columna */
 }
 
+.modal {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.modal-titulo {
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.modal-elemento {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.modal-elemento-input {
+  border: none; /* Elimina el borde */
+  outline: none; /* Elimina el borde de enfoque */
+  background: transparent; /* Fondo transparente */
+  border: 3px solid #FF7730; /*Pone un borde nuevo*/
+  border-radius: 5px;
+  height: 3rem;
+  background-color: #fff;
+}
+
 .card {
   perspective: 150rem;
   -mox-perpective: 150rem;
@@ -123,7 +154,7 @@ body {
   transform: rotateY(180deg);
 }
 .card__side--back-1 {
-  background-image: linear-gradient(to right bottom, #FFb900, #FF7730);
+  background-image: linear-gradient(to right bottom, #e3ae1c, #FF7730);
 }
 .card:hover .card__side--front {
   transform: rotateY(-180deg);
@@ -139,7 +170,7 @@ body {
   clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 .card__picture--1 {
-  background-image: linear-gradient(to right bottom, #FFb900, #FF7730);
+  background-image: linear-gradient(to right bottom, #e3ae1c, #FF7730);
 }
 .card__heading {
   font-size: 2.8rem;
@@ -159,7 +190,7 @@ body {
           box-decoration-break: clone;
 }
 .card__heading-span--1 {
-  background-image: linear-gradient(to right bottom, rgba(255, 185, 0, 0), rgba(255, 119, 48, 0.85));
+  background-image: linear-gradient(to right bottom, rgba(227, 174, 28, 0), rgba(255, 119, 48, 0.85));
 }
 .card__details {
   padding: 3rem;
