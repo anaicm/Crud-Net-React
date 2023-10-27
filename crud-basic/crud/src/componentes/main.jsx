@@ -4,15 +4,13 @@ import '../css/maim.css';
 
 
 export function Main() {
+    //*---------------------------------Estados--------------------------------------------------------------*/
     const[rows, setRows] = useState([]);//Estado para guardar el array de datos que vienen de la base de datos 
     const [newBook, setNewBook] = useState({ titulo: '', autor: '' });//estado para añadir nuevo elemento
-    //ventana emergente para eliminar 
-    const [deleteInputValue, setDeleteInputValue] = useState('');
-    //Metodos para abrir un modal e insertar el id para borrar 
-      const handleDeleteInputChange = (e) => {
-        setDeleteInputValue(e.target.value);
-      };      
-    //función que trae todos los registros de la tabla
+    //estados para actualizar los elementos
+    const [modalBook, setModalBook] = useState({modalID: -1,modalTitulo: '', modalAutor: ''});
+    //*---------------------------------Funciones--------------------------------------------------------------*/
+    //------------------------------función que trae todos los registros de la tabla
     async function fetchData() {
         try {
             const response = await fetch('http://localhost:5020/Libros');
@@ -26,13 +24,18 @@ export function Main() {
             console.log(error);
         }
     }
-    useEffect(() => {
-        fetchData();
+        useEffect(() => {
+            fetchData();
     },[]);
-    //añade un nuevo registro en la tabla
-    const handleAddBook = async (e) => {
+
+    useEffect(() => {
+     
+},[modalBook]);
+    //----------------------------------------añade un nuevo registro en la tabla
+    const handleAddBook = async (e) => {//handle=>Manejar
         e.preventDefault();
         try {
+        
             const response = await fetch('http://localhost:5020/Libros', {
                 method: 'POST',
                 headers: {
@@ -53,15 +56,16 @@ export function Main() {
             console.log(error);
         }
     };
+    const manejarNuevoLibro = (e) => {//me va a mirar si es un libro nuevo
+        if (e.target.name === 'titulo') {//mira si en el input tiene un 'titulo'
+          setNewBook({ ...newBook, titulo: e.target.value });//target=> evento que te dice quien quiere el evento,
+                                                            // en este caso 'name' y me trae el value del input mediante el name
+        } else if (e.target.name === 'autor') {//mira si en el input tiene un 'autor'
+            setNewBook({ ...newBook, autor: e.target.value });
+        }
+      };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewBook({
-            ...newBook,
-            [name]: value,
-        });
-    };
-    //función que elimina registros
+    //---------------------------------------función que elimina registros
     const handleDeleteBook = async (idToDelete) => {
         try {
             // Realiza la solicitud para eliminar el libro por su ID
@@ -80,8 +84,78 @@ export function Main() {
             console.log(error);
         }
     };
+//--------------------------------------------------funcion actualizar 
+    const handleUpdateBook = async () => {
+        debugger;
+        try {
+            const response = await fetch('http://localhost:5020/Libros', {
+            method: 'PUT', // Puedes usar 'PATCH' si solo quieres actualizar ciertos campos
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            id: modalBook.modalID,
+            titulo: modalBook.modalTitulo,
+            autor: modalBook.modalAutor,
+            }),
+        });
     
-   
+        if (response.ok) {
+            // Actualización exitosa, cierra el modal y actualiza la lista
+            fetchData();
+        } else {
+            console.log('No se pudo actualizar el libro');
+        }
+        } catch (error) {
+        console.log(error);
+        }
+    };
+  
+
+    const manejarCambioLibro = (e) => {//me va a mirar en que input me esta entrando el cambio si es en el titulo o en autor
+        if (e.target.name === 'titulo') {
+          setModalBook({ ...modalBook, modalTitulo: e.target.value });
+        } else if (e.target.name === 'autor') {
+          setModalBook({ ...modalBook, modalAutor: e.target.value });
+        }
+      };
+
+//función para el modal  
+    function Modal({ book, isOpen, onClose }) {
+      if (!isOpen) {
+        return null; // No mostrar el modal si no está abierto
+      }
+    
+      return (
+        <div className="modal">
+          <div className="modal-content">
+                <h2 className='modal-titulo'>Editar Libro</h2>
+                <div className="modal-elemento">
+                    <input
+                        className='modal-elemento-input'
+                        type="text"
+                        name="titulo"
+                        value={modalBook.modalTitulo}
+                        onChange={manejarCambioLibro}
+                    />
+                    </div>
+                    <div className="modal-elemento">
+                    <input
+                        className='modal-elemento-input'
+                        type="text"
+                        name="autor"
+                        value={modalBook.modalAutor}
+                        onChange={manejarCambioLibro} 
+                    />
+                    </div>
+                <button className='card-back-button' onClick={handleUpdateBook}>
+                        Aceptar
+                </button>
+                <button onClick={onClose} className='card-back-button'>Cerrar</button>
+          </div>
+        </div>
+      );
+    }
    
   return (
     <>
@@ -108,7 +182,23 @@ export function Main() {
                     <div className="card__side card__side--back card__side--back-1">
                         {/**parte de atras de la carta  */}
                         <div className="card-back">
-                            <button type='submit'  className="card-back-button">Actualizar</button>
+                            <button className="card-back-button" onClick={() => {
+                              debugger;
+                                setModalBook({modalID: book.id ,modalTitulo: book.titulo, modalAutor: book.autor});
+                                }}>
+                                Actualizar
+                            </button>
+                            {/** book={book}=>Se pasa el libro que hace falta */}
+                            {/** isOpen={isModalOpen !== -1 && book.id === isModalOpen} => si el modal esta open y 
+                             * es el id que estoy actualizando, muestramelo
+                             */}
+                            
+                            {modalBook.modalID === book.id && (
+                            <Modal
+                                book={book}
+                                isOpen={true}
+                                onClose={() => setModalBook({modalID: -1, modalTtitulo: '', modalAutor: ''})}
+                            />)}
                             <button type="button" onClick={() => handleDeleteBook(book.id)}
                                     className=" card-back-button">Eliminar
                             </button>
@@ -126,15 +216,15 @@ export function Main() {
                 name="titulo"
                 placeholder="Título"
                 value={newBook.titulo}
-                onChange={handleInputChange}
-            />               
+                onChange={(e) => manejarNuevoLibro(e)}
+                />               
             <input className='container-form-autor'
                 type="text"
                 name="autor"
                 placeholder="Autor"
                 value={newBook.autor}
-                onChange={handleInputChange}
-            />                   
+                onChange={(e) => manejarNuevoLibro(e)}
+                />                   
             <button type='submit'  className="btn btn-white container-form-button">Añadir</button>
             
       
