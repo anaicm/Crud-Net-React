@@ -7,18 +7,8 @@ export function Main() {
     const[rows, setRows] = useState([]);//Estado para guardar el array de datos que vienen de la base de datos 
     const [newBook, setNewBook] = useState({ titulo: '', autor: '' });//estado para añadir nuevo elemento
     //ventana emergente para eliminar 
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteInputValue, setDeleteInputValue] = useState('');
-    //Metodos para abrir un modal e insertar el id para borrar
-    const openDeleteModal = () => {//abre el modal
-        setIsDeleteModalOpen(true);
-      };
-      
-      const closeDeleteModal = () => {//cierra el modal
-        setIsDeleteModalOpen(false);
-        setDeleteInputValue(''); // Limpia el valor del input cuando se cierra la ventana emergente
-      };
-      
+    //Metodos para abrir un modal e insertar el id para borrar 
       const handleDeleteInputChange = (e) => {
         setDeleteInputValue(e.target.value);
       };      
@@ -82,8 +72,7 @@ export function Main() {
             if (response.ok) {
                 // Eliminación exitosa, actualiza la lista de libros después de eliminar uno
                 fetchData();
-                // Cierra la ventana emergente
-                closeDeleteModal();
+            
             } else {
                 console.log('No se pudo eliminar el libro');
             }
@@ -118,8 +107,10 @@ export function Main() {
                     </div>
                     <div className="card__side card__side--back card__side--back-1">
                         <div className="card__cta">
-                            <div className="card__price-box">
-                            Boton de borrar
+                            <div className="card__price-box">{/**parte de atras de la carta  */}
+                                <button type="button" onClick={() => handleDeleteBook(book.id)}
+                                        className=" container-form-button">Eliminar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -145,23 +136,9 @@ export function Main() {
                 onChange={handleInputChange}
             />                   
             <button type='submit'  className="btn btn-white container-form-button">Añadir</button>
-            <button type="button" onClick={openDeleteModal} className="btn btn-white container-form-button">
-                Borrar
-            </button>
-        </form>
-         {/* Ventana emergente para borrar */}
-        {isDeleteModalOpen && (
-            <div className="delete-modal">
-                <input
-                      type="text"
-                      placeholder="Ingrese el ID del libro para eliminar"
-                      value={deleteInputValue}
-                      onChange={handleDeleteInputChange}
-                />
-                <button onClick={closeDeleteModal}>Cancelar</button>
-                <button onClick={() => handleDeleteBook(deleteInputValue)}>Confirmar</button>
-            </div>
-        )}
+            <button type='submit'  className="btn btn-white container-form-button">Actualizar</button>
+      
+        </form>       
     </div>
     {/** fin del formulario para añadir un nuevo libro */}
 </div>
