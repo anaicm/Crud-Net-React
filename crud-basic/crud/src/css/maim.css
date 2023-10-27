@@ -178,6 +178,27 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+.card-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+.card-back-button {
+  background-color: #fff;
+  color: #000;
+  margin: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.card-back-button:hover {
+  background-color: #eee;
+}
+
 button {
   border: none; /* Elimina el borde */
   outline: none; /* Elimina el resaltado de enfoque */
@@ -259,7 +280,6 @@ button {
   width: 300px;
   margin: 0 auto;
   display: flex;
-  justify-content: center;
   flex-direction: column;
 }
 .container-form-titulo, .container-form-autor {
@@ -274,7 +294,6 @@ button {
   border-color: #007bff;
 }
 .container-form-button {
-  align-content: center;
   background-color: #007bff;
   color: #fff;
   border: none;

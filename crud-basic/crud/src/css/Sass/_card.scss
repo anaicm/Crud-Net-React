@@ -47,12 +47,10 @@ height: 52rem;//el padre debe de tener la misma altura que el hijo ya al hacer p
                                                             //lo realice en todos los navegadores
     clip-path: polygon(0 0, 100% 0,100% 85%, 0 100%);
     
-    &--1{
+    &--1{//da color en la parte de atrás de la tarjeta
         background-image: linear-gradient(to right bottom, 
                             $color-secondary-light,
                             $color-secondary-dark); 
-                          
-
     }
  
 }
@@ -96,6 +94,29 @@ height: 52rem;//el padre debe de tener la misma altura que el hijo ya al hacer p
 
                 }
             }
+        }
     }
+
 }
-}
+//-------------------------------diseño back---------------------------------------------------------------------------------
+.card-back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Esto centrará el contenido horizontalmente
+    height: 100%; // Asegura que el contenedor ocupe toda la altura del elemento padre
+
+    &-button{
+        background-color:$color-white;
+        color: $color-black;
+        margin: .5rem 1rem; 
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        &:hover {
+            background-color: $color-grey-light-2;
+        }   
+    }
+  }
