@@ -86,7 +86,7 @@ export function Main() {
     };
 //--------------------------------------------------funcion actualizar 
     const handleUpdateBook = async () => {
-        debugger;
+      
         try {
             const response = await fetch('http://localhost:5020/Libros', {
             method: 'PUT', // Puedes usar 'PATCH' si solo quieres actualizar ciertos campos
@@ -103,6 +103,7 @@ export function Main() {
         if (response.ok) {
             // Actualización exitosa, cierra el modal y actualiza la lista
             fetchData();
+            setModalBook({modalID: -1, modalTtitulo: '', modalAutor: ''})
         } else {
             console.log('No se pudo actualizar el libro');
         }
@@ -151,6 +152,7 @@ export function Main() {
                 <button className='card-back-button' onClick={handleUpdateBook}>
                         Aceptar
                 </button>
+                
                 <button onClick={onClose} className='card-back-button'>Cerrar</button>
           </div>
         </div>
