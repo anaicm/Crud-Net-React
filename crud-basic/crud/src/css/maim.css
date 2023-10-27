@@ -98,37 +98,58 @@ body {
   margin-right: 0; /* Quita el margen derecho de la tercera columna */
 }
 
+/* Estilo para el modal */
 .modal {
-  background-color: #eee;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  width: 300px;
-  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-}
-.modal-titulo {
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-.modal-elemento {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  margin-bottom: 1rem;
-}
-.modal-elemento-input {
-  border: none; /* Elimina el borde */
-  outline: none; /* Elimina el borde de enfoque */
-  background: transparent; /* Fondo transparente */
-  border: 3px solid #FF7730; /*Pone un borde nuevo*/
-  border-radius: 5px;
-  height: 3rem;
-  background-color: #fff;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 100;
 }
 
+/* Estilo para el contenido del modal */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  text-align: center;
+}
+
+/* Estilo para el formulario dentro del modal */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo para los campos de entrada del formulario */
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Estilo para el botón "Actualizar" dentro del formulario */
+.modal-content button.container-form-button {
+  background: #337ab7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* Ajusta los estilos según tus preferencias y necesidades específicas */
 .card {
   perspective: 150rem;
   -mox-perpective: 150rem;
@@ -268,8 +289,6 @@ button {
 .btn::after {
   content: "";
   display: inline-block;
-  height: 100%;
-  width: 100%;
   border-radius: 10rem;
   position: absolute;
   top: 0;
