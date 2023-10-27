@@ -106,13 +106,13 @@ export function Main() {
                         </div>
                     </div>
                     <div className="card__side card__side--back card__side--back-1">
-                        <div className="card__cta">
-                            <div className="card__price-box">{/**parte de atras de la carta  */}
-                                <button type="button" onClick={() => handleDeleteBook(book.id)}
-                                        className=" container-form-button">Eliminar
-                                </button>
-                            </div>
-                        </div>
+                        {/**parte de atras de la carta  */}
+                        <div className="card-back">
+                            <button type='submit'  className="card-back-button">Actualizar</button>
+                            <button type="button" onClick={() => handleDeleteBook(book.id)}
+                                    className=" card-back-button">Eliminar
+                            </button>
+                        </div>    
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@ export function Main() {
                 onChange={handleInputChange}
             />                   
             <button type='submit'  className="btn btn-white container-form-button">Añadir</button>
-            <button type='submit'  className="btn btn-white container-form-button">Actualizar</button>
+            
       
         </form>       
     </div>
