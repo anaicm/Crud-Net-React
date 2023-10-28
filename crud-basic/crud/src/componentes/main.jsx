@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from 'react';
-import '../css/maim.css';
 
 
 export function Main() {
@@ -32,7 +31,8 @@ export function Main() {
 
     //----------------------------------------añade un nuevo registro en la tabla
     const handleAddBook = async (e) => {//handle=>Manejar
-        e.preventDefault();
+        e.preventDefault();//para que no submitee el form en la misma página y no recarga la página otra vez
+        //cuando añade el registro no recarga la pantalla otra vez
         try {
         
             const response = await fetch('http://localhost:5020/Libros', {
@@ -48,6 +48,7 @@ export function Main() {
                 fetchData();
                 // Limpiar el formulario
                 setNewBook({ titulo: '', autor: '' });
+                setIsModalOpen(false);
             } else {
                 console.log('No se pudo agregar el libro');
             }
@@ -65,7 +66,9 @@ export function Main() {
       };
 
     //---------------------------------------función que elimina registros
-    const handleDeleteBook = async (idToDelete) => {
+    const handleDeleteBook = async (e,idToDelete) => {
+        e.preventDefault();
+
         try {
             // Realiza la solicitud para eliminar el libro por su ID
             const response = await fetch(`http://localhost:5020/Libros/${idToDelete}`, {
@@ -84,8 +87,8 @@ export function Main() {
         }
     };
 //--------------------------------------------------funcion actualizar 
-    const handleUpdateBook = async () => {
-      
+    const handleUpdateBook = async (e) => {
+        e.preventDefault();
         try {
             const response = await fetch('http://localhost:5020/Libros', {
             method: 'PUT', // Puedes usar 'PATCH' si solo quieres actualizar ciertos campos
@@ -119,8 +122,60 @@ export function Main() {
           setModalBook({ ...modalBook, autor: e.target.value });
         }
       };
+//para controlar el foco de los input
+      useEffect(() => {
+        if (modalBook.autor !== '') {
+            const inputElement = document.querySelector('.container-form-autor');
+            if (inputElement) {
+                inputElement.focus();
+            }
+        }
+    }, [modalBook.autor]);
 
-   
+      useEffect(() => {
+        if (modalBook.titulo !== '') {
+            const inputElement = document.querySelector('.container-form-titulo');
+            if (inputElement) {
+                inputElement.focus();
+            }
+        }
+    }, [modalBook.titulo]);
+
+//---------------------------------------------------------------------------
+
+      function Modal({ onClose }) { 
+
+        return (
+          <div className="modal">
+            <div className="modal-content">
+                  <h2 className='modal-titulo'>Editar Libro</h2>
+                  <div className="modal-elemento">
+                  <form onSubmit={(e)=>handleUpdateBook(e)}>
+                        <input
+                            className="container-form-titulo"
+                            type="text"
+                            name="titulo"
+                            placeholder="Título"
+                            value={modalBook.titulo}
+                            onChange={(e) => manejarCambioLibro(e)}
+                        />
+                        <input
+                            className="container-form-autor"
+                            type="text"
+                            name="autor"
+                            placeholder="Autor"
+                            value={modalBook.autor}
+                            onChange={(e) => manejarCambioLibro(e)}
+                        />
+                        <button className="container-form-button">Actualizar</button>
+                    </form>
+                      </div>
+                  <button onClick={onClose} className='card-back-button'>Cerrar</button>
+            </div>
+          </div>
+        );
+      }
+
   return (
     <>
     <div className="container-main">
@@ -149,7 +204,6 @@ export function Main() {
                             <button className="card-back-button" onClick={() => {
                               debugger;
                                 setModalBook({ id: book.id ,titulo: book.titulo, autor: book.autor});
-                                setIsModalOpen(true);
                                 }}>
                                 Actualizar
                             </button>
@@ -158,8 +212,11 @@ export function Main() {
                              * es el id que estoy actualizando, muestramelo
                              */}
                             
-                            
-                            <button type="button" onClick={() => handleDeleteBook(book.id)}
+                            {modalBook.id === book.id && (
+                            <Modal
+                                onClose={() => setModalBook({id: -1, titulo: '', autor: ''})}
+                            />)}
+                            <button type="button" onClick={(e) => handleDeleteBook(e,book.id)}
                                     className=" card-back-button">Eliminar
                             </button>
                         </div>    
@@ -169,55 +226,34 @@ export function Main() {
           
         ))}{/**cierre del rows para traer los títulos y los autores */}
     </div>
-    <div className='container-form'>{/**Formulario para añadir un nuevo libro */}
-        <form onSubmit={handleAddBook}>
-            <input className='container-form-titulo'
-                type="text"
-                name="titulo"
-                placeholder="Título"
-                value={newBook.titulo}
-                onChange={(e) => manejarNuevoLibro(e)}
-                />               
-            <input className='container-form-autor'
-                type="text"
-                name="autor"
-                placeholder="Autor"
-                value={newBook.autor}
-                onChange={(e) => manejarNuevoLibro(e)}
-                />                   
-            <button className="btn btn-white container-form-button">Añadir</button>
-            
-      
-        </form>   {/** fin del formulario para añadir un nuevo libro */}     
-    </div>
     {isModalOpen && (
     <div className="modal">
         <div className="modal-content">
-            <h2>Actualizar Libro</h2>
-            <form onSubmit={handleUpdateBook}>
+            <h2>Añadir Libro</h2>
+            <form onSubmit={handleAddBook}>
                 <input
                     className="container-form-titulo"
                     type="text"
                     name="titulo"
                     placeholder="Título"
-                    value={modalBook.titulo}
-                    onChange={(e) => manejarCambioLibro(e)}
+                    value={newBook.titulo}
+                    onChange={(e) => manejarNuevoLibro(e)}
                 />
                 <input
                     className="container-form-autor"
                     type="text"
                     name="autor"
                     placeholder="Autor"
-                    value={modalBook.autor}
-                    onChange={(e) => manejarCambioLibro(e)}
+                    value={newBook.autor}
+                    onChange={(e) => manejarNuevoLibro(e)}
                 />
-                <button className=" container-form-button">Actualizar</button>
+                <button className="btn btn-white container-form-button">Añadir</button>
             </form>
-            <button className=" container-form-button" onClick={() => setIsModalOpen(false)}>Cerrar</button>
+            <button className="btn btn-white container-form-button" onClick={() => setIsModalOpen(false)}>Cerrar</button>
         </div>
     </div>
 )}
-   
+<button onClick={() => setIsModalOpen(true)} className="btn btn-white container-form-button">Añadir</button>
 </div>
    
 </>
