@@ -6,4 +6,5 @@ public class DataContext:DbContext{
    //Entidad que mapea en .net Libro.cs que contiene la clase Libro
    public DbSet<Libro> Libro{get;set;}//public DbSet<Clase que mapea> nomTabla{get;set;}
    //si hay más tablas se van añadiendo aquí
+    public DbSet<Login> Usuarios{get;set;}
 }
